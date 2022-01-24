@@ -1,11 +1,18 @@
-import React from "react";
-import { useState } from "react/cjs/react.development";
+import React, { useState } from "react";
+import { dbService } from "fbase";
 
 const Home = () => {
   const [sweet, setSweet] = useState("");
-  const onSubmit = (event) => {
+  
+  const onSubmit = async(event) => {
     event.preventDefault();
+    await dbService.collection("sweets").add({
+       sweet: sweet,
+       createdAt: Date.now(),
+    });
+    setSweet("");
   };
+  
   const onChange = (event) => {
     const {
       target: {value},
@@ -15,7 +22,7 @@ const Home = () => {
 
   return (
     <div>
-    <form>
+    <form onSubmit={onSubmit}>
       <input type="text" onChange={onChange} placeholder="What's on your mind?" maxLength={120} />
       <input type="submit" value="Sweet" />
     </form>
