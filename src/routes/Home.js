@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { dbService } from "fbase";
+import Sweet from "components/Sweet"; 
 
 const Home = ({ userObj }) => {
   const [sweet, setSweet] = useState("");
@@ -39,11 +40,9 @@ const Home = ({ userObj }) => {
       <input type="submit" value="Sweet" />
     </form>
     <div>
-      {sweets.map((sweet) =>
-        <div key={sweet.id}>
-          <h4>{sweet.text}</h4>
-        </div>
-      )}
+      {sweets.map((sweet) =>(
+        <Sweet key={sweet.id} sweetObj={sweet} isOwner={sweet.creatorId === userObj.uid}/>
+      ))}
     </div>
   </div>
 
