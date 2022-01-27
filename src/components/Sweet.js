@@ -7,7 +7,6 @@ const Sweet = ({ sweetObj , isOwner}) => {
 
   const onDeleteClick = async () => {
     const ok = window.confirm("Are you sure you want to delete this sweet?");
-    console.log(ok);
     if(ok) {
       await dbService.doc(`sweets/${sweetObj.id}`).delete();
     }
