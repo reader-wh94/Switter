@@ -5,6 +5,7 @@ import Sweet from "components/Sweet";
 const Home = ({ userObj }) => {
   const [sweet, setSweet] = useState("");
   const [sweets, setSweets] = useState([]);
+  const [attachment, setAttachment] = useState();
   
   useEffect(() => {
    dbService.collection("sweets").onSnapshot((snapshot) => {
@@ -40,10 +41,15 @@ const Home = ({ userObj }) => {
     const theFile = files[0];
     const reader = new FileReader();
     reader.onloadend = (finishedEvent) => {
-      
+      const {
+        currentTarget: { result },
+      } = finishedEvent;
+      setAttachment(result);
     };
     reader.readAsDataURL(theFile);
   };
+
+  const onClearAttachment = () => setAttachment(null);
 
   return (
     <div>
@@ -51,6 +57,12 @@ const Home = ({ userObj }) => {
       <input type="text" onChange={onChange} placeholder="What's on your mind?" maxLength={120} />
       <input type="file" accept="image/*" onChange={onFileChange} />
       <input type="submit" value="Sweet" />
+      { attachment && (
+        <div>
+          <img src={attachment} width="50px" height="50px"/>
+          <button onClick={onClearAttachment}>Clear</button>
+        </div>
+        )}
     </form>
     <div>
       {sweets.map((sweet) =>(
@@ -58,7 +70,6 @@ const Home = ({ userObj }) => {
       ))}
     </div>
   </div>
-
   );
 }
 
