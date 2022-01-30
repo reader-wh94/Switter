@@ -6,7 +6,7 @@ import Sweet from "components/Sweet";
 const Home = ({ userObj }) => {
   const [sweet, setSweet] = useState("");
   const [sweets, setSweets] = useState([]);
-  const [attachment, setAttachment] = useState();
+  const [attachment, setAttachment] = useState("");
   
   useEffect(() => {
    dbService.collection("sweets").onSnapshot((snapshot) => {
@@ -21,7 +21,7 @@ const Home = ({ userObj }) => {
   const onSubmit = async(event) => {
     event.preventDefault();
     let attachmentUrl = "";
-    if(attachment != "") {
+    if(attachment !== "") {
       const attachmentRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
       const response = await attachmentRef.putString(attachment, "data_url");
       attachmentUrl = await response.ref.getDownloadURL();

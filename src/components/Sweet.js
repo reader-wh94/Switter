@@ -9,7 +9,9 @@ const Sweet = ({ sweetObj , isOwner}) => {
     const ok = window.confirm("Are you sure you want to delete this sweet?");
     if(ok) {
       await dbService.doc(`sweets/${sweetObj.id}`).delete();
-      await storageService.refFromURL(sweetObj.attachmentUrl).delete();
+      if(sweetObj.attachmentUrl !== "") {
+        await storageService.refFromURL(sweetObj.attachmentUrl).delete();
+      }
     }
   };
 
