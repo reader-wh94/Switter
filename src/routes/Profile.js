@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { authService, dbService } from "fbase";
 import { useHistory } from "react-router-dom";
 
-const Profile = ({ userObj }) => {
+const Profile = ({ refreshUser, userObj }) => {
   const history = useHistory();
   const [newDisplayName, setNewDisplayName] = useState(userObj.displayName);
   const onLogOutClick = () => {
@@ -23,13 +23,14 @@ const Profile = ({ userObj }) => {
       const response = await userObj.updateProfile({
         displayName: newDisplayName,
       });
+      refreshUser();
     }
   }
-
+  
   return(
     <>
     <form onSubmit={onSubmit}>
-      <input tpye="text" onChange={onChange} placeholder="Display name" value={newDisplayName} />
+      <input type="text" onChange={onChange} placeholder="Display name" value={newDisplayName} />
       <input type="submit" value="Update Profile" />
     </form>
       <button onClick={onLogOutClick}>Log Out</button>
